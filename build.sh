@@ -2,7 +2,7 @@
 
 git clone https://github.com/rpsene/goconfig.git
 cd ./goconfig
-source ./go.sh install
+source ./go.sh install 1.17.8
 
 cd ..
 git clone https://github.com/hashicorp/terraform.git

@@ -38,7 +38,7 @@ jobs:
             echo '::set-output name=RELEASE::v'$TAG-$GITHUB_RUN_ID
             
             #Copy built binary file to artifacts directory
-            cp ./terraform /artifacts/
+            cp ./terraform /artifacts/terraform-linux-ppc64le
                       
       - name: Create Release
         id: create_release
@@ -58,6 +58,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} 
-          asset_path: ./artifacts/*
+          asset_path: ./artifacts/terraform-linux-ppc64le
           asset_name: terraform-linux-ppc64le
           asset_content_type: application/octet-stream

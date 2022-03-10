@@ -1,3 +1,5 @@
+#!/bin/bash
+
 git clone https://github.com/hashicorp/terraform.git
 cd terraform
 export TAG=$(git describe --tags `git rev-list --tags --max-count=1`)

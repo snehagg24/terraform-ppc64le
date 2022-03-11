@@ -35,7 +35,7 @@ jobs:
             #Building terraform
             chmod +x ./build.sh
             source ./build.sh
-            echo '::set-output name=RELEASE::v'$TAG-$GITHUB_RUN_ID
+            echo '::set-output name=RELEASE::'$TAG-$GITHUB_RUN_ID
             
             #Copy built binary file to artifacts directory
             cp ./terraform /artifacts/terraform-linux-ppc64le

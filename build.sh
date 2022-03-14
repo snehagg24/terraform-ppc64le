@@ -10,4 +10,4 @@ cd terraform
 export TAG=$1
 git checkout tags/$TAG
 
-env GOOS=linux GOARCH=ppc64le go build .
+env GOOS=linux GOARCH=ppc64le go install .

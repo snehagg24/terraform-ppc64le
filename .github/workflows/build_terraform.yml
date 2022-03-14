@@ -38,7 +38,7 @@ jobs:
             echo '::set-output name=RELEASE::'$TAG-$GITHUB_RUN_ID
             
             #Copy built binary file to artifacts directory
-            cp ../go-workspace/bin/terraform /artifacts/terraform-linux-ppc64le
+            cp $GOPATH/bin/terraform /artifacts/terraform-linux-ppc64le
                       
       - name: Create Release
         id: create_release

@@ -35,14 +35,15 @@ jobs:
             #Building terraform
             chmod +x ./build.sh
             source ./build.sh v0.13.5
-            echo '::set-output name=RELEASE::'$TAG-$GITHUB_RUN_ID
+            echo '::set-output name=RELEASE::'$TAG
             
             #Copy built binary file to artifacts directory
-            cp $GOPATH/bin/terraform /artifacts/terraform-linux-ppc64le
+            cp $GOPATH/bin/terraform /artifacts/terraform-$TAG
                       
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
+        if: $(curl -s -o /dev/null -w "%{http_code}" https://api.github.com/repos/snehakpersistent/terraform-ppc64le/releases/tags/v0.15.5-1980097872) != 200 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -57,7 +58,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} 
-          asset_path: ./artifacts/terraform-linux-ppc64le
-          asset_name: terraform-linux-ppc64le
+          upload_url: $(curl -s https://api.github.com/repos/snehakpersistent/terraform-ppc64le/releases/tags/${{ steps.build.outputs.RELEASE }} | grep "upload_url" | cut -d '"' -f4) 
+          asset_path: ./artifacts/terraform-${{ steps.build.outputs.RELEASE }}
+          asset_name: terraform-${{ steps.build.outputs.RELEASE }}
           asset_content_type: application/octet-stream

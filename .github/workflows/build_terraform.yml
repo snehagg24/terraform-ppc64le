@@ -34,14 +34,12 @@ jobs:
             
             #Building terraform
             chmod +x ./build.sh
-            source ./build.sh v0.13.5
+            source ./build.sh v0.13.0
             echo '::set-output name=RELEASE::'$TAG
             
             #Copy built binary file to artifacts directory
             cp $GOPATH/bin/terraform /artifacts/terraform-$TAG
             
-            #Check if release exists
-            echo '::set-output name=RELEASE_EXISTS::'$(curl -s -o /dev/null -w "%{http_code}" https://api.github.com/repos/snehakpersistent/terraform-ppc64le/releases/tags/$TAG)
                       
       - name: Create Release
         id: create_release

@@ -39,11 +39,14 @@ jobs:
             
             #Copy built binary file to artifacts directory
             cp $GOPATH/bin/terraform /artifacts/terraform-$TAG
+            
+            #Check if release exists
+            echo '::set-output name=RELEASE_EXISTS::'$(curl -s -o /dev/null -w "%{http_code}" https://api.github.com/repos/snehakpersistent/terraform-ppc64le/releases/tags/$TAG)
                       
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
-        if: $(curl -s -o /dev/null -w "%{http_code}" https://api.github.com/repos/snehakpersistent/terraform-ppc64le/releases/tags/v0.15.5-1980097872) != 200 
+        if: steps.build.outputs.RELEASE_EXISTS != 200 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:

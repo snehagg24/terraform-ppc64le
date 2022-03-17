@@ -14,8 +14,8 @@ jobs:
 
       - name: Get latest Terraform release
         run: |
-          apt-get update -y
-          apt-get install -y curl
+          sudo apt-get update -y
+          sudo apt-get install -y curl
           
           TF_LATEST=$(curl -s https://api.github.com/repos/hashicorp/terraform/releases/latest | grep tag_name | cut -d '"' -f4)
           echo '::set-output name=LATEST_RELEASE::'$TF_LATEST

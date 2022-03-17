@@ -1,0 +1,30 @@
+
+name: Check for new Terraform release
+
+on:
+  schedule:
+    - cron: '* * * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get latest Terraform release
+        run: |
+          apt-get update -y
+          apt-get install -y curl
+          
+          TF_LATEST=$(curl -s https://api.github.com/repos/hashicorp/terraform/releases/latest | grep tag_name | cut -d '"' -f4)
+          echo '::set-output name=LATEST_RELEASE::'$TF_LATEST
+          
+      - name: Get current Terraform release for Power
+        run: |
+          TF_CURRENT=$(curl -s https://api.github.com/repos/snehakpersistent/terraform-ppc64le/releases/latest | grep tag_name | cut -d '"' -f4)
+          echo '::set-output name=CURRENT_RELEASE::'$TF_CURRENT
+          
+      - name: Build new Terraform release for Power
+        if: ${{ steps.build.outputs.LATEST_RELEASE }} != ${{ steps.build.outputs.CURRENT_RELEASE }}
+        uses: ./.github/workflows/build_terraform.yml

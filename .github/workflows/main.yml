@@ -3,7 +3,7 @@ name: Check for new Terraform release
 
 on:
   schedule:
-    - cron: '0 0 * * */7'
+    - cron: '* * * * *'
   workflow_dispatch:
 
 jobs:
